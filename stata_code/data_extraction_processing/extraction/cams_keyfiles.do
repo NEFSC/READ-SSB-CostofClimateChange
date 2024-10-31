@@ -103,3 +103,18 @@ notes: "`sql'";
 
 save  $data_main/cams_vlgear_keyfile_$today_date_string.dta, replace;
 export delimited using  $data_main/cams_vlgear_keyfile_$today_date_string.csv, replace;
+
+
+
+
+clear;
+local sql "select table_name, column_name, comments from all_col_comments where owner='CAMS_GARFO' and table_name in('CAMS_SUBTRIP','CAMS_LAND','CAMS_ORPHAN_SUBTRIP') order by column_name, table_name" ;
+
+odbc load, exec("`sql' ;") lower;
+
+/*jdbc load, exec("`sql'") case(lower); not run.*/
+
+save  $data_main/cams_keyfile_$today_date_string.dta, replace;
+export delimited using  $data_main/cams_keyfile_$today_date_string.csv, replace;
+
+
